@@ -52,8 +52,8 @@ static const char *colors[SchemeLast][2] = {
     [SchemeBorder] = { NULL, gray },  // bg will be used
 };
 /* -l and -g options; controls number of lines and columns in grid if > 0 */
-static unsigned int lines      = 0;
-static unsigned int columns    = 0;
+static unsigned int lines      = 7;
+static unsigned int columns    = 4;
 
 /*
  * Characters not considered part of a word while deleting words
