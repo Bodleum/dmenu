@@ -41,6 +41,7 @@ static const char fg2[] = "#d5c4a1";
 static const char fg0[] = "#fbf1c7";
 static const char orange[] = "#d65d0e";
 static const char light_orange[] = "#fe8019";
+static const char dark_blue[] = "#076678";
 
 static const char *colors[SchemeLast][2] = {
     /*     fg         bg       */
@@ -49,7 +50,7 @@ static const char *colors[SchemeLast][2] = {
     [SchemeOut] = { fg1, aqua },
     [SchemeSelHighlight] = { orange, light_green },
     [SchemeNormHighlight] = { light_yellow, bg0 },
-    [SchemeBorder] = { NULL, gray },  // bg will be used
+    [SchemeBorder] = { NULL, dark_blue },  // bg will be used
 };
 /* -l and -g options; controls number of lines and columns in grid if > 0 */
 static unsigned int lines      = 7;
