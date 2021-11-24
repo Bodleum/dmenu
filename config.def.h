@@ -11,6 +11,8 @@ static const char *fonts[] = {
 };
 static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
 
+static const int line_height_padding = 6;
+
 /* Gruvbox */
 static const char bg0[] = "#282828";
 static const char red[] = "#cc241d";
