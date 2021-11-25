@@ -30,7 +30,7 @@
 
 /* enums */
 enum { SchemeNorm, SchemeSel, SchemeNormHighlight, SchemeSelHighlight,
-    SchemeBorder, SchemeOut, SchemeLast }; /* color schemes */
+    SchemeBorder, SchemePrompt, SchemeOut, SchemeLast }; /* color schemes */
 
 
 struct item {
@@ -211,18 +211,18 @@ drawmenu(void)
     drw_rect(drw, 0, 0, mw, mh, 1, 1);
 
     if (prompt && *prompt) {
-        drw_setscheme(drw, scheme[SchemeNorm]);
-        x = drw_text(drw, x, 0, promptw, bh, lrpad / 2, prompt, 0);
+        drw_setscheme(drw, scheme[SchemePrompt]);
+        drw_text(drw, x, 0, mw, bh, lrpad / 2, prompt, 0);
     }
     /* draw input field */
     w = (lines > 0 || !matches) ? mw - x : inputw;
     drw_setscheme(drw, scheme[SchemeNorm]);
-    drw_text(drw, x, 0, w, bh, lrpad / 2, text, 0);
+    drw_text(drw, x, bh, w, bh, lrpad / 2, text, 0);
 
     curpos = TEXTW(text) - TEXTW(&text[cursor]);
     if ((curpos += lrpad / 2 - 1) < w) {
         drw_setscheme(drw, scheme[SchemeNorm]);
-        drw_rect(drw, x + curpos, 2, 2, bh - 4, 1, 0);
+        drw_rect(drw, x + curpos, line_height_padding + bh - 2, 2, 4 + bh - line_height_padding*2, 1, 0);
     }
 
     recalculatenumbers();
@@ -233,7 +233,7 @@ drawmenu(void)
             drawitem(
                 item,
                 x + ((i / lines) *  ((mw - x) / columns)),
-                y + (((i % lines) + 1) * bh),
+                y + (((i % lines) + 2) * bh),
                 (mw - x) / columns
             );
     } else if (matches) {
@@ -254,7 +254,7 @@ drawmenu(void)
         }
     }
     drw_setscheme(drw, scheme[SchemeNorm]);
-    drw_text(drw, mw - TEXTW(numbers), 0, TEXTW(numbers), bh, lrpad / 2, numbers, 0);
+    drw_text(drw, mw - TEXTW(numbers), bh, TEXTW(numbers), bh, lrpad / 2, numbers, 0);
     drw_map(drw, win, 0, 0, mw, mh);
 }
 
@@ -954,7 +954,7 @@ setup(void)
     /* calculate menu geometry */
     bh = drw->fonts->h + line_height_padding;
     lines = MAX(lines, 0);
-    mh = (lines + 1) * bh;
+    mh = (lines + 2) * bh;
     promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
 #ifdef XINERAMA
     i = 0;
@@ -1001,7 +1001,7 @@ setup(void)
                 parentwin);
 
         if (centered) {
-            mw = MIN(MAX(max_textw() + promptw, min_width), wa.width);
+            mw = MIN(MAX(max_textw(), min_width), wa.width);
             x = (wa.width  - mw) / 2;
             y = (wa.height - mh) / 2;
         } else {
@@ -1076,6 +1076,8 @@ main(int argc, char *argv[])
             fast = 1;
         else if (!strcmp(argv[i], "-c"))   /* centers dmenu on screen */
             centered = 1;
+        else if (!strcmp(argv[i], "-C"))   /* uncenters dmenu on screen */
+            centered = 0;
         else if (!strcmp(argv[i], "-s")) { /* case-sensitive item matching */
             fstrncmp = strncmp;
             fstrstr = strstr;

@@ -51,6 +51,7 @@ static const char *colors[SchemeLast][2] = {
     [SchemeSelHighlight] = { orange, light_green },
     [SchemeNormHighlight] = { light_yellow, bg0 },
     [SchemeBorder] = { NULL, dark_blue },  // bg will be used
+    [SchemePrompt] = { fg1, dark_blue },
 };
 /* -l and -g options; controls number of lines and columns in grid if > 0 */
 static unsigned int lines      = 7;
