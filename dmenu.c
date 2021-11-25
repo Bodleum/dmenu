@@ -205,7 +205,7 @@ drawmenu(void)
 {
     unsigned int curpos;
     struct item *item;
-    int x = 0, y = 0, w;
+    int x = 0, y = 0, yoff = 0, w;
 
     drw_setscheme(drw, scheme[SchemeNorm]);
     drw_rect(drw, 0, 0, mw, mh, 1, 1);
@@ -213,16 +213,17 @@ drawmenu(void)
     if (prompt && *prompt) {
         drw_setscheme(drw, scheme[SchemePrompt]);
         drw_text(drw, x, 0, mw, bh, lrpad / 2, prompt, 0);
+        yoff = bh;
     }
     /* draw input field */
     w = (lines > 0 || !matches) ? mw - x : inputw;
     drw_setscheme(drw, scheme[SchemeNorm]);
-    drw_text(drw, x, bh, w, bh, lrpad / 2, text, 0);
+    drw_text(drw, x, yoff, w, bh, lrpad / 2, text, 0);
 
     curpos = TEXTW(text) - TEXTW(&text[cursor]);
     if ((curpos += lrpad / 2 - 1) < w) {
         drw_setscheme(drw, scheme[SchemeNorm]);
-        drw_rect(drw, x + curpos, line_height_padding + bh - 2, 2, 4 + bh - line_height_padding*2, 1, 0);
+        drw_rect(drw, x + curpos, line_height_padding + yoff - 2, 2, 4 + bh - line_height_padding*2, 1, 0);
     }
 
     recalculatenumbers();
@@ -233,7 +234,7 @@ drawmenu(void)
             drawitem(
                 item,
                 x + ((i / lines) *  ((mw - x) / columns)),
-                y + (((i % lines) + 2) * bh),
+                y + (((i % lines) + 1) * bh + yoff),
                 (mw - x) / columns
             );
     } else if (matches) {
@@ -254,7 +255,7 @@ drawmenu(void)
         }
     }
     drw_setscheme(drw, scheme[SchemeNorm]);
-    drw_text(drw, mw - TEXTW(numbers), bh, TEXTW(numbers), bh, lrpad / 2, numbers, 0);
+    drw_text(drw, mw - TEXTW(numbers), yoff, TEXTW(numbers), bh, lrpad / 2, numbers, 0);
     drw_map(drw, win, 0, 0, mw, mh);
 }
 
