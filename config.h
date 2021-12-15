@@ -7,7 +7,9 @@ static int min_width = 1000;                    /* minimum width when centered *
 static int fuzzy = 1;                      /* -F  option; if 0, dmenu doesn't use fuzzy matching     */
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
-    "monospace:size=14"
+    "monospace:size=14",
+    "NotoColorEmoji:antialias=true:autohint=true:pixelsize=20",
+    "JoyPixels:pixelsize=20:antialias=true:autohint=true"
 };
 static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
 
